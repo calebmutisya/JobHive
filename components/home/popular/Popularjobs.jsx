@@ -14,11 +14,8 @@ const Popularjobs = () => {
   // const error = false;
 
   const { data, isLoading, error } = useFetch('search', {
-    query: 'developer jobs in chicago',
-    page: '1',
-    num_pages: '1',
-    country: 'us',
-    date_posted: 'all'
+    query: 'React Developer',
+    num_pages: "1",
   });
 
   console.log(data);
