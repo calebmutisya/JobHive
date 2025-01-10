@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Stack, useRouter, useLocalSearchParams } from "expo-router";
+import { Stack, useRouter , useLocalSearchParams} from "expo-router";
 
 import { View, Text, SafeAreaView, ScrollView, ActivityIndicator, RefreshControl } from "react-native";
 
@@ -15,7 +15,8 @@ const JobDetails = () => {
     const router = useRouter();
 
     const { data, isLoading, error, refetch } = useFetch('job-details', {
-        job_id: params.id
+        job_id: params.id,
+        country: 'us'
     });
 
     const [refreshing, setRefreshing] = useState(false);
@@ -41,10 +42,9 @@ const JobDetails = () => {
                     headerRight: () => (
                         <ScreenHeaderBtn iconUrl={icons.share} dimension="60%" />
                     ),
-                    headerTitle: "",
+                    headerTitle: " ",
                 }}
-            >
-
+            />
                 <>
                     <ScrollView showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
 
@@ -52,8 +52,8 @@ const JobDetails = () => {
                             <ActivityIndicator size="large" color={COLORS.primary} />
                         ) : error ? (
                             <Text>Something went wrong</Text>
-                        ): data?.length === 0 ? (
-                                <Text>No data found</Text>
+                        ):  !data || data?.length === 0 ? (
+                                <Text>No data available</Text>
                         ) : (
                             <View style={{ padding: SIZES.medium, paddingBottom: 100 }}>
                                 <Company
@@ -63,17 +63,11 @@ const JobDetails = () => {
                                     location={data[0]?.job_country}
                                 />
 
-                                <JobTabs
-                                    
-                                />
-                                
+                                <JobTabs/>
                             </View>
                         )}
                     </ScrollView>
                 </>
-
-            </Stack.Screen>
-
         </SafeAreaView>
     )
 };
